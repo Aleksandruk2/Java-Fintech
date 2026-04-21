@@ -82,6 +82,26 @@ public class Main {
         System.out.println("Remove stream | Список кольорів: " + colors);
     }
 
+    public static void SortClassList() {
+        //TreeSet -  той же самий HashSet, але він завжди сортований
+        // Усі елементи які попадають у дерево автоматично там зберігіються сортовані.
+        List<Person> people = Arrays.asList(
+                new Person("Семен", 21),
+                new Person("Павло", 16),
+                new Person("Їжак", 9)
+        );
+
+        Collections.sort(people);
+        System.out.println("Сортованитй список " + people);
+
+        //Будемо сортувати елементи по імені, передає вказівник на метод
+        Collections.sort(people, Comparator.comparing(Person::getName));
+        System.out.println("Сортування по імені " + people);
+
+        Collections.sort(people, Comparator.comparing(Person::getAge).reversed());
+        System.out.println("Сортування по вікові за спаданям " + people);
+    }
+
     //Dictionary - у C#
     public static void MyHashMap() {
         Map<String, Integer> map = new HashMap<>();
@@ -105,28 +125,94 @@ public class Main {
 
     }
 
+    public static void Classwork1() {
+        Scanner scanner = new Scanner(System.in);
+        List<Integer> numbers = new ArrayList<>();
+
+        System.out.println("Введіть числа (для завершення введіть будь-який нечисловий символ):");
+
+        while (scanner.hasNextInt()) {
+            numbers.add(scanner.nextInt());
+        }
+        scanner.nextLine();
+
+        System.out.println("Ваш список чисел:");
+        System.out.println(numbers);
+
+        while (true) {
+            System.out.println("Виберіть один із варіантів:");
+            System.out.println("1. Додати елемент в список");
+            System.out.println("2. Видалите елемент з списоку");
+            System.out.println("3. Показати вміст списоку");
+            System.out.println("4. Перевірити чи є значення в списоку");
+            System.out.println("5. Змінити значення в списоку");
+            System.out.println("6. Вихід");
+            System.out.println();
+            scanner.nextLine();
+            if (scanner.hasNextInt()) {
+                int response = scanner.nextInt();
+                switch (response) {
+                    case 1:
+                        System.out.println("Введіть число:");
+                        if (scanner.hasNextInt()) {
+                            int value = scanner.nextInt();
+                            numbers.add(value);
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Введіть елемент для видалення:");
+                        if (scanner.hasNextInt()) {
+                            int value = scanner.nextInt();
+                            numbers.remove(Integer.valueOf(value));
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Список чисел: " + numbers);
+                        break;
+                    case 4:
+                        System.out.println("Введіть значення для перевірки: ");
+                        if (scanner.hasNextInt()) {
+                            if (numbers.contains(scanner.nextInt())) {
+                                System.out.println("Значеня є в списку.");
+                            } else {
+                                System.out.println("Значеня немає в списку.");
+                            }
+                        }
+                        break;
+                    case 5:
+                        int index = 0;
+                        int value = 0;
+                        System.out.println("Введіть індекс який хочете замінити: ");
+                        if (scanner.hasNextInt()) {
+                            index = scanner.nextInt();
+                        }
+                        System.out.println("Введіть нове значення:");
+                        if (scanner.hasNextInt()) {
+                            value = scanner.nextInt();
+                        }
+                        numbers.set(index, value);
+                        break;
+                    case 6:
+                        System.out.println("Вихід...");
+                        return;
+                    default: break;
+                }
+            } else {
+                System.out.println("Введіть число!");
+                scanner.nextLine();
+            }
+
+        }
+
+    }
+
     static void main() {
         System.out.println("-- Робота з колекціями Java");
 //        MyArrayList();
 //        SortArrayList();
 //        ArrayRemoveItem();
 //        MyHashMap();
-        //TreeSet -  той же самий HashSet, але він завжди сортований
-        // Усі елементи які попадають у дерево автоматично там зберігіються сортовані.
-        List<Person> people = Arrays.asList(
-                new Person("Семен", 21),
-                new Person("Павло", 16),
-                new Person("Їжак", 9)
-        );
-
-        Collections.sort(people);
-        System.out.println("Сортованитй список " + people);
-
-        //Будемо сортувати елементи по імені, передає вказівник на метод
-        Collections.sort(people, Comparator.comparing(Person::getName));
-        System.out.println("Сортування по імені " + people);
-
-        Collections.sort(people, Comparator.comparing(Person::getAge).reversed());
-        System.out.println("Сортування по вікові за спаданям " + people);
+//        SortClassList();
+        Classwork1();
     }
 }
