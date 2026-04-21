@@ -1,40 +1,53 @@
 package org.example;
 
 import org.example.entities.CategoryEntity;
+import org.example.entities.ProductEntity;
 import org.example.utils.HibernateHelper;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-//      var session = HibernateHelper.getSession();
+//        var session = HibernateHelper.getSession();
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Список категорій:");
+        ReadData();
+//        InsertDataGeneric(NewProduct(scanner));
+        ReadDataProduct();
+
 //        InsertData(scanner);
-        ReadData();
+//        ReadData(scanner);
 //        DeleteData(scanner);
-        UpdateData(scanner);
-        ReadData();
-//      session.close();
-        System.out.println("- Java код був завершений.");
+//        UpdateData(scanner);
+//        ReadData(scanner);
+//        session.close();
+//        System.out.println("Привіт Java!");
     }
 
-    public static void InsertData(Scanner scanner) {
+
+    public static ProductEntity NewProduct(Scanner scanner) {
+        ProductEntity p = new ProductEntity();
+        System.out.println("Вкажіть назву продукту:");
+        p.setName(scanner.nextLine());
+        System.out.println("Вкажіть назву картинки:");
+        p.setImage(scanner.nextLine());
+        System.out.println("Вкажіть ціну:");
+        p.setPrice(scanner.nextBigDecimal());
+        System.out.println("Вкажіть id категорії:");
+        var cat = new CategoryEntity();
+        cat.setId(scanner.nextInt());
+        p.setCategory(cat);
+        return p;
+    }
+
+    public static <MyEntity> void InsertDataGeneric(MyEntity entity) {
         try (var session = HibernateHelper.getSession()) {
             // Почати транзакцію
             session.beginTransaction();
-            System.out.print("Вкажіть назву категорії\n- ");
-            String categoryName = scanner.nextLine();
-            if (categoryName.isEmpty())
-                return;
-            var cat = new CategoryEntity(categoryName);
-            //context.Categories.Add(cat); // як у C#
-            session.persist(cat); // Додати нову категорію
-
+            session.persist(entity); // Додати нову категорію
             // Завершити транзакцію
             session.getTransaction().commit();
-            System.out.println("Cat id " + cat.getId());
         } catch (Exception ex) {
             System.out.printf("Сталася халепа %d", ex.getMessage());
         }
@@ -87,6 +100,22 @@ public class Main {
                 entity.setName(newCategoryName);
                 session.merge(entity); // Оновити зміни
             }
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            System.out.printf("Сталася халепа %d", ex.getMessage());
+        }
+    }
+
+    public static void ReadDataProduct() {
+        try (var session = HibernateHelper.getSession()) {
+            // Почати транзакцію
+            session.beginTransaction();
+            var list = session.createQuery("from ProductEntity",
+                    ProductEntity.class).getResultList();
+            for (var item : list) {
+                System.out.printf("%d \t%s : \t%s \t%s\n", item.getId(), item.getName(), item.getCategory().getName(), item.getCategory().getId());
+            }
+
             session.getTransaction().commit();
         } catch (Exception ex) {
             System.out.printf("Сталася халепа %d", ex.getMessage());
