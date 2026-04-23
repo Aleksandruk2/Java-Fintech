@@ -2,6 +2,7 @@ package org.example;
 
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Main {
     public static void task1() {
@@ -37,6 +38,16 @@ public class Main {
             return result;
         };
         System.out.println("Факторіал: " + function.apply(4));
+
+        Predicate<Integer> isPrime = n -> {
+            if (n < 2) return false;
+            for (int i = 2; i <= Math.sqrt(n); i++) {
+                if (n % i == 0) return false;
+            }
+            return true;
+        };
+
+        System.out.println("Просто число: " + isPrime.test(8));
     }
 
     static void main() {
