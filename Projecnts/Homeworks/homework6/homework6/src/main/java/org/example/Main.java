@@ -6,10 +6,6 @@ public class Main {
     static void main() throws InterruptedException {
         ArrayProcessor processor = new ArrayProcessor(10);
 
-//        Thread t1 = new FillThread(processor);
-//        Thread t2 = new SumThread(processor);
-//        Thread t3 = new AvgThread(processor);
-
         FillThread fillThread = new FillThread(processor);
         SumThread sumThread = new SumThread(processor);
         AvgThread avgThread = new AvgThread(processor);
