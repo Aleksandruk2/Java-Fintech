@@ -1,7 +1,7 @@
 package org.example.services;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.GenreDto;
+import org.example.dtos.GenreDto;
 import org.example.mappers.GenreMapper;
 import org.example.repositories.IGenreRepository;
 import org.springframework.stereotype.Service;
