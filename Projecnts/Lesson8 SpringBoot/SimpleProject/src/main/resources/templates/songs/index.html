@@ -49,16 +49,13 @@
     <script >
         document.addEventListener("DOMContentLoaded", () => {
             let currentAudio = null;
-            console.log("Скріпт працює...");
 
             document.querySelectorAll("audio").forEach(audio => {
                 audio.addEventListener("play", () => {
                     if (currentAudio && currentAudio !== audio) {
                         currentAudio.pause();
-                        console.log("ставимо паузу...");
                     }
                     currentAudio = audio;
-                    console.log("Назначеємо пісню..");
                 });
             });
         });
