@@ -3,6 +3,8 @@ package org.example.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class SongDto {
@@ -11,4 +13,5 @@ public class SongDto {
     private String fileName;
     private String artist;
     private String album;
+    private List<GenreDto> genres;
 }
