@@ -73,8 +73,8 @@
             <span class="font-medium" th:text="${#authentication.name}">Username</span>
             <img
                     th:src="${#authentication.principal.image != null}
-                        ? @{/images/{img}(img=${#authentication.principal.image})}
-                        : @{/images/DefaultUser.webp}"
+                        ? @{/images/small/{img}(img=${#authentication.principal.image})}
+                        : @{/images/small/DefaultUser.webp}"
                     class="w-10 h-10 rounded-full object-cover border-2 border-white shadow"
                     alt="avatar"
             >

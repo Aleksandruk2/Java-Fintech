@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.example.dtos.UserRegisterDto;
+import org.example.services.AccountService;
 import org.example.services.UserInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @AllArgsConstructor
 public class AccountController {
     private final UserInfoService userService;
+    private final AccountService accountService;
 
     @GetMapping("/login")
     public String login() {
@@ -27,17 +29,30 @@ public class AccountController {
         return "account/register/index";
     }
 
+//    @PostMapping("/register")
+//    public String registerPost(@ModelAttribute("user") UserRegisterDto dto, Model model,
+//                               HttpServletRequest request) {
+//        try {
+//            userService.register(dto);
+//            request.login(dto.getUsername(), dto.getPassword());
+//            return "redirect:/";
+//        }
+//        catch (Exception e) {
+//            model.addAttribute("error", e.getMessage());
+//            return "account/register/index";
+//        }
+//    }
+
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute("user") UserRegisterDto dto, Model model,
-                               HttpServletRequest request) {
+    public String register(UserRegisterDto dto, Model model, HttpServletRequest request) {
         try {
-            userService.register(dto);
-            request.login(dto.getUsername(), dto.getPassword());
+            accountService.register(dto, request);
             return "redirect:/";
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "account/register/index";
+            return "account/register";
         }
     }
+
+
 }

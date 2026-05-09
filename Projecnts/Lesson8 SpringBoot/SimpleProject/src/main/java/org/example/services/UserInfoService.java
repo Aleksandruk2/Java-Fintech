@@ -35,39 +35,39 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void register(UserRegisterDto dto) throws IOException {
-        if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-
-        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-            throw new IllegalArgumentException("Паролі не співпадають");
-        }
-
-        String fileName = null;
-
-        if(!dto.getImage().isEmpty()) {
-            fileName = UUID.randomUUID()
-                    .toString()
-                    .substring(0, 12) + "_" +
-                    dto.getImage().getOriginalFilename();
-
-            Path path = Paths.get(imagesDir + "/" + fileName);
-            Files.createDirectories(path.getParent());
-            Files.copy(dto.getImage().getInputStream(), path);
-        }
-
-        UserEntity user = new UserEntity();
-        user.setUsername(dto.getUsername());
-        user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setImage(fileName);
-
-        RoleEntity userRole = roleRepository
-                .findByName(RolesConstants.UserRole)
-                .orElseThrow();
-
-        user.getRoles().add(userRole);
-        userRepository.save(user);
-    }
+//    public void register(UserRegisterDto dto) throws IOException {
+//        if (userRepository.existsByUsername(dto.getUsername())) {
+//            throw new IllegalArgumentException("Username already exists");
+//        }
+//
+//        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+//            throw new IllegalArgumentException("Паролі не співпадають");
+//        }
+//
+//        String fileName = null;
+//
+//        if(!dto.getImage().isEmpty()) {
+//            fileName = UUID.randomUUID()
+//                    .toString()
+//                    .substring(0, 12) + "_" +
+//                    dto.getImage().getOriginalFilename();
+//
+//            Path path = Paths.get(imagesDir + "/" + fileName);
+//            Files.createDirectories(path.getParent());
+//            Files.copy(dto.getImage().getInputStream(), path);
+//        }
+//
+//        UserEntity user = new UserEntity();
+//        user.setUsername(dto.getUsername());
+//        user.setEmail(dto.getEmail());
+//        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+//        user.setImage(fileName);
+//
+//        RoleEntity userRole = roleRepository
+//                .findByName(RolesConstants.UserRole)
+//                .orElseThrow();
+//
+//        user.getRoles().add(userRole);
+//        userRepository.save(user);
+//    }
 }
