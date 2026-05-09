@@ -22,7 +22,7 @@ services:
 
   api:
     #build: ./WebApiTransfer
-    image: novakvova/p32-java:latest
+    image: avalentyn/p32-java:latest
     container_name: p32-java_api
     volumes:
       - ${VOLUME_IMAGESAPI}
