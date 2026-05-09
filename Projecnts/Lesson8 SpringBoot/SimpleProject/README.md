@@ -3,6 +3,11 @@
 mvn spring-boot:run
 ```
 
+### Extension Pack for Java
+```aiignore
+mvn clean install -U
+```
+
 ### Очистити збілджений проєкт
 ```
 mvn clean

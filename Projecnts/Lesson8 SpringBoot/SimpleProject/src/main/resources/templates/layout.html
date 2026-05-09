@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="uk"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -10,24 +11,83 @@
 </head>
 <body class="bg-gradient-to-br from-green-100 via-emerald-50 to-green-200 text-gray-800 min-h-screen flex flex-col transition-colors duration-700">
 
-<nav class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 shadow-lg">
-    <div class="container mx-auto flex justify-between items-center">
-        <a href="/" class="font-semibold text-lg hover:text-green-100 transition-colors duration-300">
-            Spring сайт
+<nav class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-3 shadow-lg">
+    <div th:with="btn='relative overflow-hidden p-2 px-3 rounded-2xl text-white group hover:text-green-200 transition duration-100',
+         bg='absolute inset-0 bg-black/10 scale-50 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition duration-200 origin-center rounded-2xl',
+         contentMd='relative z-10 font-semibold text-md',
+         contentLg='relative z-10 font-semibold text-lg'"
+         class="container mx-auto flex justify-between items-center"
+    >
+        <a href="/" th:class="${btn}">
+            <span th:class="${bg}"></span>
+            <span th:class="${contentLg}">
+                    Spring сайт
+                </span>
         </a>
 
-        <div class="flex gap-6">
-            <a href="/" class="hover:text-green-100 transition">Головна</a>
-            <a href="/songs" class="hover:text-green-100 transition">
-                Пісні
-            </a>
-            <a href="/genres/create" class="hover:text-green-100 transition">
-                Додати жанр
-            </a>
-            <a href="/login" class="hover:text-green-100 transition">Увійти</a>
-            <a href="/register" class="hover:text-green-100 transition">Реєстрація</a>
+        <div class="flex gap-2 items-center">
+            <div>
+                <a href="/" th:class="${btn}">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd}">
+                        Головна
+                    </span>
+                </a>
+                <a href="/songs" th:class="${btn}">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd}">
+                        Пісні
+                    </span>
+                </a>
+                <a href="/test" th:class="${btn}">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd} + 'relative text-yellow-300'">
+                        Test
+                    </span>
+                </a>
+                <a href="/genres/create" th:class="${btn}">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd}">
+                        Додати жанр
+                    </span>
+                </a>
+            </div>
+
+            <div class="flex" sec:authorize="!isAuthenticated()">
+                <a href="/login" th:class="${btn}">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd}">
+                        Увійти
+                    </span>
+                </a>
+                <a href="/register" th:class="${btn}">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd}">
+                        Реєстрація
+                    </span>
+                </a>
+            </div>
         </div>
 
+        <div class="flex items-center gap-3" sec:authorize="isAuthenticated()">
+            <span class="font-medium" th:text="${#authentication.name}">Username</span>
+            <img
+                    th:src="${#authentication.principal.image != null}
+                        ? @{/images/{img}(img=${#authentication.principal.image})}
+                        : @{/images/DefaultUser.webp}"
+                    class="w-10 h-10 rounded-full object-cover border-2 border-white shadow"
+                    alt="avatar"
+            >
+            <form th:action="@{/logout}" method="post">
+                <button type="submit"
+                        class="bg-green-600 border-green-700 border-2 relative overflow-hidden p-1 px-2 rounded-2xl text-white group hover:text-green-200 transition duration-200">
+                    <span th:class="${bg}"></span>
+                    <span th:class="${contentMd}">
+                        Вийти
+                    </span>
+                </button>
+            </form>
+        </div>
 
     </div>
 </nav>

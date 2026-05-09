@@ -5,11 +5,17 @@ import groovy.io.FileType;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
+import org.example.data.constants.RolesConstants;
 import org.example.entities.Genre;
+import org.example.entities.RoleEntity;
 import org.example.entities.Song;
+import org.example.entities.UserEntity;
 import org.example.repositories.IGenreRepository;
+import org.example.repositories.IRoleRepository;
 import org.example.repositories.ISongRepository;
+import org.example.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -26,16 +32,49 @@ public class AppSeedData {
     //final - теж саме, що readonly у С#
     private final IGenreRepository genreRepository;
     private final ISongRepository songRepository;
+    private final IRoleRepository roleRepository;
+    private final IUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final Faker faker = new Faker(new Locale("uk"));
 
     @PostConstruct
     public void seed() {
         System.out.println("---------Run seed data-----------");
-        seedGenres();
         try {
+            seedGenres();
             seedSongs();
+            seedRoles();
+            seedUsers();
         } catch (IOException e) {
-            System.out.println("Error reead files");
+            System.out.println("Error read files");
+        }
+    }
+
+    private void seedUsers() {
+        if(userRepository.count() == 0) {
+            RoleEntity role = roleRepository.findByName(RolesConstants.AdminRole).orElseThrow();
+            UserEntity user = new UserEntity();
+            user.setUsername("admin");
+            user.setEmail("admin@gmail.com");
+            user.setPassword(passwordEncoder.encode("123456"));
+            user.setRoles(Set.of(role));
+            userRepository.save(user);
+        }
+    }
+
+    private void seedRoles() {
+        List<String> roles = RolesConstants.Roles;
+
+        for (String roleName : roles) {
+            boolean exists = roleRepository.findByName(roleName).isPresent();
+            if (!exists) {
+                RoleEntity role = new RoleEntity();
+                role.setName(roleName);
+                roleRepository.save(role);
+                System.out.println("Додано роль: " + roleName);
+            } else {
+                System.out.println("Роль уже існує: " + roleName);
+            }
         }
     }
 

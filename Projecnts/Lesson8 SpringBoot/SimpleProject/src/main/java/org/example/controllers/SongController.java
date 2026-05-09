@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.example.services.SongService;
@@ -15,5 +15,11 @@ public class SongController {
     public String index(Model model) {
         model.addAttribute("songs", service.getAll());
         return "songs/index";
+    }
+
+    @GetMapping("/test")
+    public String test(Model model) {
+        model.addAttribute("songs", service.getAll());
+        return "songs/test";
     }
 }

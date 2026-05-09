@@ -9,11 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Value( "${upload.dir}")
     private String uploadDir;
+    @Value("${images.dir}")
+    private String imagesDir;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Serve /uploads/** URLs from the filesystem "uploads" folder
         registry.addResourceHandler("/music/**")
                 .addResourceLocations("file:"+uploadDir+"/");
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:"+imagesDir+"/");
     }
 }

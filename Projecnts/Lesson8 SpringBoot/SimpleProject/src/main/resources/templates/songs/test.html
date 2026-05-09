@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Music</title>
+    <title>test</title>
     <style>
         @keyframes borderFlow {
             0% {
@@ -35,7 +35,7 @@
     </div>
     <div th:if="${!#lists.isEmpty(songs)}" class="space-y-4 relative">
 
-        <!--        Плеєр-->
+<!--        Плеєр-->
         <div id="player-card" class="z-50 transition-transform duration-500 ease-in-out translate-y-full shadow border border-2 border-b-0 border-white fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-3xl bg-gradient-to-r from-green-500 to-green-700 p-2 px-4 rounded-t-3xl">
             <div>
                 <button onclick="hidePlayerCard()"
