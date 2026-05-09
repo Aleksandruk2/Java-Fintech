@@ -25,7 +25,7 @@ services:
     image: novakvova/p32-java:latest
     container_name: p32-java_api
     volumes:
-      - ${VOLUME_SERVERAPI}
+      - ${VOLUME_IMAGESAPI}
       - ${VOLUME_MUSICAPI}
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgresServerDb:5432/${POSTGRES_DB}
