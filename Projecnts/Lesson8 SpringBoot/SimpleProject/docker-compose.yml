@@ -7,7 +7,7 @@ networks:
 services:
   postgresServerDb:
     image: postgres:18.1
-    container_name: postgres_db
+    container_name: postgres_java_db
     restart: always
     ports:
       - "5020:5432"
