@@ -45,7 +45,7 @@ public class AccountService {
                 String fileName = UUID.randomUUID()
                         .toString()
                         .substring(0, 12) + "_" +
-                        dto.getImage().getOriginalFilename();
+                        dto.getImage().getOriginalFilename().replace(" ", "_");
                 new SaveUserImageService().saveUserImage(dto.getImage(), fileName);
                 user.setImage(fileName);
             } catch (Exception e) {

@@ -16,6 +16,6 @@ public class UserRegisterDto {
     private String password;
     @NotBlank
     private String confirmPassword;
-    @NotBlank
+
     private MultipartFile image;
 }
